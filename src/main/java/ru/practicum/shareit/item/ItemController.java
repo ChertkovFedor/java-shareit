@@ -51,9 +51,8 @@ public class ItemController {
         return itemService.findItemsByUser(ownerId);
     }
 
-//    @GetMapping("/search?text={text}")
     @GetMapping("/search")
-    public Collection<ItemDto> searchItemsByNameOrDescription(@PathParam("text") String text){
+    public Collection<ItemDto> searchItemsByNameOrDescription(@PathParam("text") String text) {
         return itemService.searchItemsByNameOrDescription(text);
     }
 

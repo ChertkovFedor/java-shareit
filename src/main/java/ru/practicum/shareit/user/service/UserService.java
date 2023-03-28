@@ -8,8 +8,12 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<UserDto> create(UserCreationDto userDto);
+
     Optional<UserDto> update(Integer userId, UserCreationDto userDto);
+
     Collection<UserDto> findAll();
+
     Optional<UserDto> findUserById(Integer userId);
+
     void deleteUserById(Integer userId);
 }

@@ -2,9 +2,6 @@ package ru.practicum.shareit.item.validator;
 
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemCreationDto;
-import ru.practicum.shareit.item.model.Item;
-
-import java.util.Map;
 
 public class ItemValidator {
     public static void itemValid(ItemCreationDto itemDto) {
