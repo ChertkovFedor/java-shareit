@@ -2,9 +2,12 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
+
 
 @Data
 @AllArgsConstructor
+@NonNull
 public class ItemCreationDto {
     private String name;
     private String description;
