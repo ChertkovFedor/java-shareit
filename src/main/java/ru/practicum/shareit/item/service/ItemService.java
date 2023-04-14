@@ -1,23 +1,30 @@
 package ru.practicum.shareit.item.service;
 
+import ru.practicum.shareit.comment.dto.CommentCreateDto;
+import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemCreationDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemDtoWithBookingsAndComments;
+import ru.practicum.shareit.item.model.Item;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 public interface ItemService {
-    Optional<ItemDto> create(ItemCreationDto itemDto, Integer ownerId);
+    ItemDto create(ItemCreationDto itemDto, Integer ownerId);
 
-    Optional<ItemDto> update(Integer itemId, ItemCreationDto itemDto, Integer ownerId);
+    ItemDto update(Integer itemId, ItemCreationDto itemDto, Integer ownerId);
 
-    Collection<ItemDto> findAll();
+    List<ItemDto> findAll();
 
-    Optional<ItemDto> findItemById(Integer itemId);
+    ItemDtoWithBookingsAndComments findItemDtoById(Integer itemId, Integer userId);
 
     void deleteItemById(Integer itemId);
 
-    Collection<ItemDto> findItemsByUser(Integer ownerId);
+    List<ItemDtoWithBookingsAndComments> findAllItemDtoByUser(Integer ownerId);
 
-    Collection<ItemDto> searchItemsByNameOrDescription(String text);
+    List<ItemDto> searchAllItemDtoByNameOrDescription(String text);
+
+    Item getItemById(Integer itemId);
+
+    CommentDto addComment(CommentCreateDto commentCreationDto, Integer userId, Integer itemId);
 }
