@@ -24,6 +24,7 @@ import java.time.Instant;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COMMENT_ID", unique = true, nullable = false, updatable = false)
     private Integer id;
     private String text;
     @JsonBackReference

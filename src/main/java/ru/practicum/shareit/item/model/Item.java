@@ -16,6 +16,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ITEM_ID", unique = true, nullable = false, updatable = false)
     private Integer id;
     @JoinColumn(name = "OWNER_ID")
     @ManyToOne(fetch = FetchType.EAGER)

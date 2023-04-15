@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOOKING_ID", unique = true, nullable = false, updatable = false)
     private Integer id;
     @JsonBackReference
     @JsonManagedReference
