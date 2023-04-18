@@ -9,6 +9,7 @@ import ru.practicum.shareit.item.dto.ItemDtoWithBookingsAndComments;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemCreationDto;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ItemController {
 
     @PostMapping
     public ItemDto create(
-            @RequestBody ItemCreationDto itemDto,
+            @RequestBody @Valid ItemCreationDto itemDto,
             @RequestHeader("X-Sharer-User-Id") Integer ownerId) {
         return iServ.create(itemDto, ownerId);
     }
@@ -28,7 +29,7 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ItemDto update(
             @PathVariable(value = "itemId") Integer itemId,
-            @RequestBody ItemCreationDto itemDto,
+            @RequestBody @Valid ItemCreationDto itemDto,
             @RequestHeader("X-Sharer-User-Id") Integer ownerId) {
         return iServ.update(itemId, itemDto, ownerId);
     }
@@ -60,7 +61,7 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addComment(@RequestBody CommentCreateDto commentCreationDto,
+    public CommentDto addComment(@RequestBody @Valid CommentCreateDto commentCreationDto,
                                  @RequestHeader("X-Sharer-User-Id") Integer authorId,
                                  @PathVariable Integer itemId) {
         return iServ.addComment(commentCreationDto, authorId, itemId);

@@ -6,6 +6,8 @@ import ru.practicum.shareit.booking.dto.BookingCreationDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -17,13 +19,13 @@ public class BookingController {
 
     @PostMapping
     public BookingDto create(
-            @RequestBody BookingCreationDto bookingCreationDto,
+            @RequestBody @Valid BookingCreationDto bookingCreationDto,
             @RequestHeader("X-Sharer-User-Id") Integer userId) {
         return bServ.create(userId, bookingCreationDto);
     }
 
     @GetMapping("/{bookingId}")
-    public BookingDto findBookingDtoById(@PathVariable Integer bookingId,
+    public BookingDto findBookingDtoById(@PathVariable @Positive Integer bookingId,
                                          @RequestHeader("X-Sharer-User-Id") Integer userId) {
         return bServ.findBookingDtoById(bookingId, userId);
     }
@@ -41,7 +43,7 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingDto approve(@PathVariable Integer bookingId,
+    public BookingDto approve(@PathVariable @Positive Integer bookingId,
                               @RequestParam Boolean approved,
                               @RequestHeader("X-Sharer-User-Id") Integer userId) {
         return bServ.approve(bookingId, approved, userId);
