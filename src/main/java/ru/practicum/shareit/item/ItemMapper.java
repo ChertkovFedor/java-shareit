@@ -1,18 +1,22 @@
 package ru.practicum.shareit.item;
 
+import ru.practicum.shareit.booking.dto.BookingForItemDto;
+import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemCreationDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemDtoWithBookingsAndComments;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.model.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemMapper {
 
-    public static Item mapToModel(int id, ItemCreationDto itemDto, int ownerId) {
+    public static Item mapToModel(Integer id, ItemCreationDto itemDto, User owner) {
         return new Item(
                 id,
-                ownerId,
+                owner,
                 itemDto.getName(),
                 itemDto.getDescription(),
                 itemDto.getAvailable()
@@ -28,11 +32,26 @@ public class ItemMapper {
         );
     }
 
-    public static Map<Integer, ItemDto> mapToItemsDto(Map<Integer, Item> items) {
-        Map<Integer, ItemDto> itemsDto = new HashMap<>();
-        for (Item item : items.values()) {
-            ItemDto itemDto = ItemMapper.mapToDto(item);
-            itemsDto.put(itemDto.getId(), itemDto);
+    public static ItemDtoWithBookingsAndComments mapToDtoWithBookingsAndComments(
+            Item item,
+            BookingForItemDto lastBooking,
+            BookingForItemDto nextBooking,
+            List<CommentDto> comments) {
+        return new ItemDtoWithBookingsAndComments(
+                item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getAvailable(),
+                lastBooking,
+                nextBooking,
+                comments
+        );
+    }
+
+    public static List<ItemDto> mapToListDto(List<Item> items) {
+        List<ItemDto> itemsDto = new ArrayList<>();
+        for (Item i : items) {
+            itemsDto.add(mapToDto(i));
         }
         return itemsDto;
     }

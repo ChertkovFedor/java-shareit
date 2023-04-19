@@ -6,38 +6,39 @@ import ru.practicum.shareit.user.dto.UserCreationDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
-import java.util.Collection;
-import java.util.Optional;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
 public class UserController {
-    private final UserService userService;
+    private final UserService uServ;
 
     @PostMapping
-    public Optional<UserDto> create(@RequestBody UserCreationDto userDto) {
-        return userService.create(userDto);
+    public UserDto create(@RequestBody @Valid UserCreationDto userDto) {
+        return uServ.create(userDto);
     }
 
     @PatchMapping("/{userId}")
-    public Optional<UserDto> update(@PathVariable(value = "userId") Integer userId, @RequestBody UserCreationDto userDto) {
-        return userService.update(userId, userDto);
+    public UserDto update(@PathVariable(value = "userId") Integer userId,
+                          @RequestBody @Valid UserCreationDto userDto) {
+        return uServ.update(userId, userDto);
     }
 
     @GetMapping
-    public Collection<UserDto> findAll() {
-        return userService.findAll();
+    public List<UserDto> findAll() {
+        return uServ.findAll();
     }
 
     @GetMapping("/{userId}")
-    public Optional<UserDto> getUserById(@PathVariable(value = "userId") Integer userId) {
-        return userService.findUserById(userId);
+    public UserDto  getUserById(@PathVariable(value = "userId") Integer userId) {
+        return uServ.findUserDtoById(userId);
     }
 
     @DeleteMapping("/{userId}")
     public void deleteUserById(@PathVariable(value = "userId") Integer userId) {
-        userService.deleteUserById(userId);
+        uServ.deleteUserById(userId);
     }
 
 }

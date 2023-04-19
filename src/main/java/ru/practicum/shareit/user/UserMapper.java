@@ -4,12 +4,12 @@ import ru.practicum.shareit.user.dto.UserCreationDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper {
 
-    public static User mapToModel(int id, UserCreationDto userDto) {
+    public static User mapToModel(Integer id, UserCreationDto userDto) {
         return new User(
                 id,
                 userDto.getName(),
@@ -25,11 +25,10 @@ public class UserMapper {
         );
     }
 
-    public static Map<Integer, UserDto> mapToUsersDto(Map<Integer, User> users) {
-        Map<Integer, UserDto> usersDto = new HashMap<>();
-        for (User u : users.values()) {
-            UserDto userDto = UserMapper.mapToDto(u);
-            usersDto.put(userDto.getId(), userDto);
+    public static List<UserDto> mapToListDto(List<User> users) {
+        List<UserDto> usersDto = new ArrayList<>();
+        for (User u : users) {
+            usersDto.add(mapToDto(u));
         }
         return usersDto;
     }
