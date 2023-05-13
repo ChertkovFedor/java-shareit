@@ -43,14 +43,12 @@ public class ItemDbTests {
     UserCreationDto userCreationDto = new UserCreationDto(
             "user1",
             "user1@mail.ru");
-
     ItemCreationDto itemCreationDto1 = new ItemCreationDto(
             "item1",
             "description1",
             true,
             1
     );
-    
     ItemCreationDto itemCreationDto2 = new ItemCreationDto(
             "item2",
             "description2",

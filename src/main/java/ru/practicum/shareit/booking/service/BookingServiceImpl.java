@@ -58,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> findAllBookingDtoByUser(State state, Integer from, Integer size, Integer userId, Role role) {
-        BookingValidator.PageValid(from, size);
+        BookingValidator.PageBookingValid(from, size);
         PageRequest page = PageRequest.of(from > 0 ? from / size : 0, size);
         uServ.getUserById(userId);
         switch (role) {

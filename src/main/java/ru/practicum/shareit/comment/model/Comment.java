@@ -1,6 +1,5 @@
 package ru.practicum.shareit.comment.model;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
