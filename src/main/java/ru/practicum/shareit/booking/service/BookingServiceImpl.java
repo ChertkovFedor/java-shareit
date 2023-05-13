@@ -1,6 +1,7 @@
 package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingMapper;
@@ -8,11 +9,11 @@ import ru.practicum.shareit.booking.dto.BookingCreationDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
+import ru.practicum.shareit.booking.status.Role;
 import ru.practicum.shareit.booking.status.State;
 import ru.practicum.shareit.booking.status.Status;
 import ru.practicum.shareit.booking.validator.BookingValidator;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
-import ru.practicum.shareit.exception.StateException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.model.User;
@@ -32,12 +33,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto create(Integer userId, BookingCreationDto bookingDto) {
-        BookingValidator.bookingValid(bookingDto);
         Item item = iServ.getItemById(bookingDto.getItemId());
         BookingValidator.itemBookingCreatValid(item, userId);
         User user = uServ.getUserById(userId);
-        Booking booking = BookingMapper.mapToModel(null, bookingDto, item, user, Status.WAITING);
-        return BookingMapper.mapToDto(bRep.save(booking));
+        return BookingMapper.mapToDto(
+                bRep.save(
+                        BookingMapper.mapToModel(null, bookingDto, item, user, Status.WAITING)
+                )
+        );
     }
 
     @Override
@@ -54,56 +57,63 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> findAllBookingDtoByBooker(String stateTitle, Integer userId) {
-        State state = getState(stateTitle);
+    public List<BookingDto> findAllBookingDtoByUser(State state, Integer from, Integer size, Integer userId, Role role) {
+        BookingValidator.PageValid(from, size);
+        PageRequest page = PageRequest.of(from > 0 ? from / size : 0, size);
         uServ.getUserById(userId);
-        List<Booking> bookings = new ArrayList<>();
+        switch (role) {
+            case BOOKER:
+                return findAllBookingDtoByBooker(state, new ArrayList<>(), userId, page);
+            case OWNER:
+                return findAllBookingDtoByOwner(state, new ArrayList<>(), userId, page);
+            default:
+                return List.of();
+        }
+    }
+
+    private List<BookingDto> findAllBookingDtoByBooker(State state, List<Booking> bookings, Integer userId, PageRequest page) {
         switch (state) {
             case ALL:
-                bookings = bRep.findAllByBookerId(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerId(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case CURRENT:
-                bookings = bRep.findAllByBookerIdAndCurrentState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerIdAndCurrentState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case FUTURE:
-                bookings = bRep.findAllByBookerIdAndFutureState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerIdAndFutureState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case PAST:
-                bookings = bRep.findAllByBookerIdAndPastState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerIdAndPastState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case WAITING:
-                bookings = bRep.findAllByBookerIdAndStatus(userId, Status.WAITING, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerIdAndStatus(userId, Status.WAITING, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case REJECTED:
-                bookings = bRep.findAllByBookerIdAndStatus(userId, Status.REJECTED, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByBookerIdAndStatus(userId, Status.REJECTED, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
         }
         return BookingMapper.mapToListDto(bookings);
     }
 
-    @Override
-    public List<BookingDto> findAllBookingDtoByOwner(String stateTitle, Integer userId) {
-        State state = getState(stateTitle);
-        uServ.getUserById(userId);
-        List<Booking> bookings = new ArrayList<>();
+    private List<BookingDto> findAllBookingDtoByOwner(State state, List<Booking> bookings, Integer userId, PageRequest page) {
         switch (state) {
             case ALL:
-                bookings = bRep.findAllByOwnerId(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerId(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case CURRENT:
-                bookings = bRep.findAllByOwnerIdAndCurrentState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerIdAndCurrentState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case FUTURE:
-                bookings = bRep.findAllByOwnerIdAndFutureState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerIdAndFutureState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case PAST:
-                bookings = bRep.findAllByOwnerIdAndPastState(userId, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerIdAndPastState(userId, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case WAITING:
-                bookings = bRep.findAllByOwnerIdAndWaitingOrRejectedState(userId, Status.WAITING,Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerIdAndWaitingOrRejectedState(userId, Status.WAITING,Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
             case REJECTED:
-                bookings = bRep.findAllByOwnerIdAndWaitingOrRejectedState(userId, Status.REJECTED, Sort.by(Sort.Direction.DESC, "end"));
+                bookings = bRep.findAllByOwnerIdAndWaitingOrRejectedState(userId, Status.REJECTED, Sort.by(Sort.Direction.DESC, "end"), page);
                 break;
         }
         return BookingMapper.mapToListDto(bookings);
@@ -126,11 +136,4 @@ public class BookingServiceImpl implements BookingService {
         return bRep.findAllByItemIdIn(itemsId);
     }
 
-    private State getState(String state) {
-        try {
-            return State.valueOf(state);
-        } catch (IllegalArgumentException e) {
-            throw new StateException(String.format("Unknown state: %s", state));
-        }
-    }
 }

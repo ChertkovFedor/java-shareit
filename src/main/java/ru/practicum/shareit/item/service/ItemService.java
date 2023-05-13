@@ -8,6 +8,7 @@ import ru.practicum.shareit.item.dto.ItemDtoWithBookingsAndComments;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ItemService {
     ItemDto create(ItemCreationDto itemDto, Integer ownerId);
@@ -27,4 +28,6 @@ public interface ItemService {
     Item getItemById(Integer itemId);
 
     CommentDto addComment(CommentCreateDto commentCreationDto, Integer userId, Integer itemId);
+
+    List<ItemDto> findAllItemsByRequestIds(Set<Integer> requestIds);
 }

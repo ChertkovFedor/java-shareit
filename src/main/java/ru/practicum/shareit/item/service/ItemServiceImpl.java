@@ -109,7 +109,7 @@ public class ItemServiceImpl implements ItemService {
     public CommentDto addComment(CommentCreateDto commentCreateDto, Integer authorId, Integer itemId) {
         ItemValidator.commentValid(commentCreateDto);
         User author = uServ.getUserById(authorId);
-        List<Booking> pastBookings = bRep.findAllByBookerIdAndPastState(authorId, Sort.by(Sort.Direction.DESC, "end"));
+        List<Booking> pastBookings = bRep.findAllByBookerIdAndPastState(authorId, Sort.by(Sort.Direction.DESC, "end"), null);
         ItemValidator.checkingPastBooking(pastBookings, authorId);
         Item item = pastBookings.stream()
                 .map(Booking::getItem)
@@ -125,6 +125,11 @@ public class ItemServiceImpl implements ItemService {
     public Item getItemById(Integer itemId) {
         return iRep.findById(itemId).orElseThrow(() ->
                 new ObjectNotFoundException(String.format("Item with id %s not found", itemId)));
+    }
+
+    @Override
+    public List<ItemDto> findAllItemsByRequestIds(Set<Integer> requestIds) {
+        return ItemMapper.mapToListDto(iRep.findAllItemsByRequestIds(requestIds));
     }
 
     private List<ItemDtoWithBookingsAndComments> addParametersForItems(List<Item> items) {

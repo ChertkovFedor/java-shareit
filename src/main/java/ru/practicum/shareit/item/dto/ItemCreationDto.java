@@ -16,4 +16,5 @@ public class ItemCreationDto {
     @Size(max = 255)
     private String description;
     private Boolean available;
+    private Integer requestId;
 }
