@@ -11,7 +11,6 @@ import ru.practicum.shareit.item.dto.ItemCreationDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.dto.UserCreationDto;
 import ru.practicum.shareit.user.service.UserService;
 
