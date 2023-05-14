@@ -33,7 +33,6 @@ class ItemRequestServiceTests {
     private ItemService iServ;
     @Mock
     private UserService uServ;
-
     private ItemRequestService irServ;
 
     @BeforeEach
@@ -44,7 +43,6 @@ class ItemRequestServiceTests {
 
     @Test
     void testCreate() {
-        
         ItemRequestCreationDto itemRequestDto = new ItemRequestCreationDto("description");
         Integer userId = 1;
         User user = new User();
@@ -53,10 +51,8 @@ class ItemRequestServiceTests {
         when(irRep.save(any(ItemRequest.class))).thenReturn(itemRequest);
         ItemRequestDto expectedDto = new ItemRequestDto(1, "description", Instant.now(), null);
 
-        
         ItemRequestDto result = irServ.create(itemRequestDto, userId);
 
-        
         assertEquals(expectedDto.getId(), result.getId());
         assertEquals(expectedDto.getDescription(), result.getDescription());
         assertEquals(expectedDto.getItems(), result.getItems());
@@ -68,7 +64,6 @@ class ItemRequestServiceTests {
 
     @Test
     void testGetRequestDtoById() {
-        
         Integer requestId = 1;
         Integer userId = 1;
         User user = new User();
@@ -78,17 +73,12 @@ class ItemRequestServiceTests {
         ItemRequestDto expectedDto = new ItemRequestDto(requestId, "description", expectedTime, items);
 
         when(uServ.getUserById(userId)).thenReturn(user);
-
         when(irRep.findById(requestId)).thenReturn(Optional.of(itemRequest));
-
         when(iServ.findAllItemsByRequestIds(anySet())).thenReturn(items);
-
         when(irRep.save(any())).thenReturn(itemRequest);
 
-        
         ItemRequestDto result = irServ.getRequestDtoById(requestId, userId);
 
-        
         assertEquals(expectedDto, result);
         verify(uServ, times(1)).getUserById(userId);
         verify(irRep, times(1)).findById(requestId);
@@ -96,10 +86,8 @@ class ItemRequestServiceTests {
         verify(irRep, times(1)).save(argThat(request -> request.getCreated().equals(expectedTime)));
     }
 
-
     @Test
     void testFindAllRequestDtoByUser() {
-        
         Integer userId = 1;
         User user = new User();
         when(uServ.getUserById(userId)).thenReturn(user);
@@ -118,20 +106,16 @@ class ItemRequestServiceTests {
                 new ItemRequestDto(2, "description2", now, items)
         );
 
-        
         List<ItemRequestDto> result = irServ.findAllRequestDtoByUser(userId);
 
-        
         assertEquals(expectedDtoList, result);
         verify(uServ, times(1)).getUserById(userId);
         verify(irRep, times(1)).findByUserId(userId);
         verify(iServ, times(1)).findAllItemsByRequestIds(requestIds);
     }
 
-
     @Test
     void testFindAllRequestDtoByOthers() {
-        
         Integer userId = 1;
         Integer from = 0;
         Integer size = 20;
@@ -144,10 +128,8 @@ class ItemRequestServiceTests {
         when(iServ.findAllItemsByRequestIds(anySet())).thenReturn(items);
         List<ItemRequestDto> expectedDtoList = new ArrayList<>();
 
-        
         List<ItemRequestDto> result = irServ.findAllRequestDtoByOthers(userId, from, size);
 
-        
         assertEquals(expectedDtoList, result);
         verify(uServ, times(1)).getUserById(userId);
         verify(irRep, times(1)).findAllExceptUserId(userId, pageRequest);
