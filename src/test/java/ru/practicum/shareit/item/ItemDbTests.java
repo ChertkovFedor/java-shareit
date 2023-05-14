@@ -30,9 +30,6 @@ public class ItemDbTests {
     @Autowired
     private EntityManager em;
     @Autowired
-    private ItemRequestService service;
-
-    @Autowired
     private UserService uServ;
     @Autowired
     private ItemService iServ;

@@ -6,7 +6,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.DirtiesContext;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -26,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ItemRequestDbTests {
 
     @Mock
@@ -41,9 +39,10 @@ public class ItemRequestDbTests {
     @InjectMocks
     private ItemRequestServiceImpl irServ;
 
+    private final Integer userId = 1;
+
     @Test
     public void testFindByUserId() {
-        Integer userId = 1;
         List<ItemRequest> expectedRequests = new ArrayList<>();
         expectedRequests.add(new ItemRequest(1, "description1", Instant.now(), null));
         expectedRequests.add(new ItemRequest(2, "description2", Instant.now(), null));
@@ -61,12 +60,11 @@ public class ItemRequestDbTests {
 
     @Test
     public void testFindAllExceptUserId() {
-        Integer userId = 1;
         Integer from = 0;
         Integer size = 10;
         User user = new User();
-        List<ItemRequest> expectedRequests = new ArrayList<>();
         List<ItemDto> items = new ArrayList<>();
+        List<ItemRequest> expectedRequests = new ArrayList<>();
         expectedRequests.add(new ItemRequest(1, "description1", Instant.now(), null));
         expectedRequests.add(new ItemRequest(2, "description2", Instant.now(), null));
 
