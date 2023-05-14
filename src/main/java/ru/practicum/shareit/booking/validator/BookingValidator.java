@@ -47,7 +47,7 @@ public class BookingValidator {
             throw new UserMismatchException("This user does not have rights to view the booking");
     }
 
-    public static void PageBookingValid(Integer from, Integer size) {
+    public static void pageValid(Integer from, Integer size) {
         if (from < 0 || size <= 0)
             throw new ValidationException("request body is missing");
     }

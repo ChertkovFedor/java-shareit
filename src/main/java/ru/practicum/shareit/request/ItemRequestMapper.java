@@ -29,12 +29,4 @@ public class ItemRequestMapper {
         );
     }
 
-//    public static List<ItemRequestDto> mapToListDto(List<ItemRequest> itemRequests) {
-//        List<ItemRequestDto> itemRequestsDto = new ArrayList<>();
-//        for (ItemRequest ir : itemRequests) {
-//            itemRequestsDto.add(mapToDto(ir));
-//        }
-//        return itemRequestsDto;
-//    }
-
 }

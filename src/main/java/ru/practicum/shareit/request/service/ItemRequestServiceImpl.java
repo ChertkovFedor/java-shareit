@@ -30,7 +30,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto create(ItemRequestCreationDto itemRequestDto, Integer userId) {
-        ItemRequestValidator.ItemRequestValid(itemRequestDto);
+        ItemRequestValidator.itemRequestValid(itemRequestDto);
         User user = uServ.getUserById(userId);
         ItemRequest itemRequest = ItemRequestMapper.mapToModel(null, itemRequestDto, Instant.now(), user);
 
@@ -58,7 +58,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public List<ItemRequestDto> findAllRequestDtoByOthers(Integer userId, Integer from, Integer size) {
-        ItemRequestValidator.PageValid(from, size);
+        ItemRequestValidator.pageValid(from, size);
         uServ.getUserById(userId);
         PageRequest page = PageRequest.of(from > 0 ? from / size : 0, size);
 
