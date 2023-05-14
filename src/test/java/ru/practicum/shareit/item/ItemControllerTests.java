@@ -231,7 +231,7 @@ class ItemControllerTests {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.[0]").exists())
                 .andExpect(jsonPath("$.[0].id").value(itemDto1.getId()))
-                .andExpect(jsonPath("$.[0].name").value(itemDto1.getName().toString()))
+                .andExpect(jsonPath("$.[0].name").value(itemDto1.getName()))
                 .andExpect(jsonPath("$.[0].description").value(itemDto1.getDescription()))
                 .andExpect(jsonPath("$.[0].available").value(itemDto1.getAvailable()))
                 .andExpect(jsonPath("$.[0].requestId").value(itemDto1.getRequestId()));
