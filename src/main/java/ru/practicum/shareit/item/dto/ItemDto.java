@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class ItemDto {
+
     private Integer id;
     @NotNull
     @NotBlank
@@ -17,4 +18,6 @@ public class ItemDto {
     private String description;
     @NotNull
     private Boolean available;
+    private Integer requestId;
+
 }

@@ -25,5 +25,7 @@ public class Item {
     private String description;
     @Column(name = "IS_AVAILABLE")
     private Boolean available;
+    @Column(name = "REQUEST_ID")
+    private Integer requestId;
 
 }

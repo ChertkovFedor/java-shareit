@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingCreationDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.booking.status.Role;
+import ru.practicum.shareit.booking.status.State;
+import ru.practicum.shareit.booking.validator.BookingValidator;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -21,6 +24,7 @@ public class BookingController {
     public BookingDto create(
             @RequestBody @Valid BookingCreationDto bookingCreationDto,
             @RequestHeader("X-Sharer-User-Id") Integer userId) {
+        BookingValidator.bookingValid(bookingCreationDto);
         return bServ.create(userId, bookingCreationDto);
     }
 
@@ -31,15 +35,21 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDto> findAllBookingDtoByBooker(@RequestParam(defaultValue = "ALL") String state,
+    public List<BookingDto> findAllBookingDtoByBooker(@RequestParam(name = "state", defaultValue = "ALL") String stateTitle,
+                                                      @RequestParam(defaultValue = "0") Integer from,
+                                                      @RequestParam(defaultValue = "20") Integer size,
                                                       @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        return bServ.findAllBookingDtoByBooker(state, userId);
+        State state = State.getState(stateTitle);
+        return bServ.findAllBookingDtoByUser(state, from, size, userId, Role.BOOKER);
     }
 
     @GetMapping("/owner")
-    public List<BookingDto> findAllBookingDtoByOwner(@RequestParam(defaultValue = "ALL") String state,
+    public List<BookingDto> findAllBookingDtoByOwner(@RequestParam(name = "state", defaultValue = "ALL") String stateTitle,
+                                                     @RequestParam(defaultValue = "0") Integer from,
+                                                     @RequestParam(defaultValue = "20") Integer size,
                                                      @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        return bServ.findAllBookingDtoByOwner(state, userId);
+        State state = State.getState(stateTitle);
+        return bServ.findAllBookingDtoByUser(state, from, size, userId, Role.OWNER);
     }
 
     @PatchMapping("/{bookingId}")
