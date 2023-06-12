@@ -41,6 +41,16 @@ public class BookingValidatorTest {
                 throw e;
             }
         });
+
+        BookingCreationDto bookingDto2 = new BookingCreationDto(1, LocalDateTime.now().minusSeconds(10), LocalDateTime.now());
+        assertThrows(ValidationException.class, () -> {
+            try {
+                BookingValidator.bookingValid(bookingDto2);
+            } catch (ValidationException e) {
+                assertEquals("Booking cannot start in the past", e.getMessage());
+                throw e;
+            }
+        });
     }
 
     @Test

@@ -33,7 +33,7 @@ public class ItemClient extends BaseClient {
         return get("/" + itemId, userId);
     }
 
-    public ResponseEntity<Object> update(Integer ownerId, ItemCreationDto itemDto, Integer itemId) {
+    public ResponseEntity<Object> update(Integer itemId, ItemCreationDto itemDto, Integer ownerId) {
         return patch("/" + itemId, ownerId, itemDto);
     }
 
@@ -56,7 +56,7 @@ public class ItemClient extends BaseClient {
         return get("/search?text={text}", userId, parameters);
     }
 
-    public ResponseEntity<Object> addComment(CommentCreateDto commentDto, Integer bookerId, Integer itemId) {
-        return post("/" + itemId + "/comment", bookerId, commentDto);
+    public ResponseEntity<Object> addComment(CommentCreateDto commentDto, Integer authorId, Integer itemId) {
+        return post("/" + itemId + "/comment", authorId, commentDto);
     }
 }

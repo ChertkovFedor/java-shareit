@@ -53,9 +53,9 @@ public class ItemRequestDbTests {
         List<ItemRequestDto> result = irServ.findAllRequestDtoByUser(userId);
 
         assertEquals(expectedRequests.size(), result.size());
-        //assertEquals(expectedRequests.get(1).getId(), result.get(0).getId());
-//        assertEquals(expectedRequests.get(1).getDescription(), result.get(0).getDescription());
-//        assertEquals(expectedRequests.get(1).getCreated(), result.get(0).getCreated());
+        assertEquals(expectedRequests.get(0).getId(), result.get(0).getId());
+        assertEquals(expectedRequests.get(0).getDescription(), result.get(0).getDescription());
+        assertEquals(expectedRequests.get(0).getCreated(), result.get(0).getCreated());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class ItemRequestDbTests {
         List<ItemRequestDto> result = irServ.findAllRequestDtoByOthers(userId, from, size);
 
         assertEquals(expectedRequests.size(), result.size());
-        //assertEquals(expectedRequests.get(1).getId(), result.get(0).getId());
-//        assertEquals(expectedRequests.get(1).getDescription(), result.get(0).getDescription());
-//        assertEquals(expectedRequests.get(1).getCreated(), result.get(0).getCreated());
+        assertEquals(expectedRequests.get(0).getId(), result.get(0).getId());
+        assertEquals(expectedRequests.get(0).getDescription(), result.get(0).getDescription());
+        assertEquals(expectedRequests.get(0).getCreated(), result.get(0).getCreated());
     }
 }

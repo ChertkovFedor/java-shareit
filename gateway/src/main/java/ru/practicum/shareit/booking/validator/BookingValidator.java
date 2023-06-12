@@ -1,10 +1,12 @@
 package ru.practicum.shareit.booking.validator;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.practicum.shareit.booking.dto.BookingCreationDto;
 import ru.practicum.shareit.exception.ValidationException;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 public class BookingValidator {
 
     public static void bookingValid(BookingCreationDto bookingDto) {
@@ -20,6 +22,9 @@ public class BookingValidator {
             throw new ValidationException("The start and end time of the booking cannot be equal");
         if (bookingDto.getStart().isBefore(LocalDateTime.now()))
             throw new ValidationException("Booking cannot start in the past");
+        if (bookingDto.getEnd().isBefore(LocalDateTime.now()))
+            throw new ValidationException("Booking cannot and in the past");
+        log.info("bookingValid ----------- OK");
     }
 
 }

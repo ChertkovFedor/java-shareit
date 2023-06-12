@@ -169,7 +169,7 @@ public class ItemServiceTests {
         when(iRep.searchItemsByNameOrDescription("item"))
                 .thenReturn(List.of(item1, item2));
 
-        List<ItemDto> itemDtoList = iServ.searchAllItemDtoByNameOrDescription("item");
+        List<ItemDto> itemDtoList = iServ.searchAllItemDtoByNameOrDescription("item", 1);
 
         Assertions.assertEquals(2, itemDtoList.size());
         Assertions.assertEquals(1, itemDtoList.get(0).getId());

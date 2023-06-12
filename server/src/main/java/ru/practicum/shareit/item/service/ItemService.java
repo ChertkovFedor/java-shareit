@@ -23,7 +23,7 @@ public interface ItemService {
 
     List<ItemDtoWithBookingsAndComments> findAllItemDtoByUser(Integer ownerId);
 
-    List<ItemDto> searchAllItemDtoByNameOrDescription(String text);
+    List<ItemDto> searchAllItemDtoByNameOrDescription(String text, Integer userId);
 
     Item getItemById(Integer itemId);
 

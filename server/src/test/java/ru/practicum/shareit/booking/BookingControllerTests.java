@@ -1,6 +1,7 @@
 package ru.practicum.shareit.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 @WebMvcTest
 @ContextConfiguration(classes = BookingController.class)
 class BookingControllerTests {
@@ -48,7 +50,7 @@ class BookingControllerTests {
 
     Item item = new Item(
             1,
-            null,
+            user,
             "item1",
             "description1",
             true,
@@ -85,26 +87,6 @@ class BookingControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(bookingDto.getId()));
 
-        bookingCreationDto = new BookingCreationDto(
-                1,
-                LocalDateTime.now().minusSeconds(10),
-                LocalDateTime.now().plusSeconds(100)
-        );
-
-        when(bServ.create(1, bookingCreationDto))
-                .thenReturn(bookingDto);
-
-        BookingCreationDto bookingCreationDto2 = bookingCreationDto;
-
-//        Assertions.assertThatThrownBy(() ->
-//                        mvc.perform(post("/bookings")
-//                                        .contentType(MediaType.APPLICATION_JSON)
-//                                        .characterEncoding(StandardCharsets.UTF_8)
-//                                        .content(mapper.writeValueAsString(bookingCreationDto2))
-//                                        .header("X-Sharer-User-Id", "1")
-//                                        .accept(MediaType.APPLICATION_JSON))
-//                                .andExpect(status().isBadRequest()))
-//                .hasCauseInstanceOf(RuntimeException.class).hasMessageContaining("Booking cannot start in the past");
     }
 
     @Test

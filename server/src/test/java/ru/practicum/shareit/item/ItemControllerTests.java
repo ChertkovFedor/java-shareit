@@ -219,7 +219,7 @@ class ItemControllerTests {
     @Test
     void testSearch() throws Exception {
 
-        when(iServ.searchAllItemDtoByNameOrDescription(any()))
+        when(iServ.searchAllItemDtoByNameOrDescription(any(), any()))
                 .thenReturn(List.of(itemDto1, itemDto1));
         mvc.perform(get("/items/search")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -236,7 +236,7 @@ class ItemControllerTests {
                 .andExpect(jsonPath("$.[0].available").value(itemDto1.getAvailable()))
                 .andExpect(jsonPath("$.[0].requestId").value(itemDto1.getRequestId()));
 
-        when(iServ.searchAllItemDtoByNameOrDescription(any()))
+        when(iServ.searchAllItemDtoByNameOrDescription(any(), any()))
                 .thenReturn(List.of());
         mvc.perform(get("/items/search")
                         .contentType(MediaType.APPLICATION_JSON)

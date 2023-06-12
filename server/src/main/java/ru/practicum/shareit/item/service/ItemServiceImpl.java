@@ -73,8 +73,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDtoWithBookingsAndComments findItemDtoById(Integer itemId, Integer userId) {
         uServ.getUserById(userId);
         Item item = getItemById(itemId);
-        List<Item> list = List.of(item);
-        ItemDtoWithBookingsAndComments itemDtoWithBookingsAndComments = addParametersForItems(list).get(0);
+        ItemDtoWithBookingsAndComments itemDtoWithBookingsAndComments = addParametersForItems(List.of(item)).get(0);
         if (!userId.equals(item.getOwner().getId())) {
             itemDtoWithBookingsAndComments.setLastBooking(null);
             itemDtoWithBookingsAndComments.setNextBooking(null);
@@ -97,7 +96,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchAllItemDtoByNameOrDescription(String text) {
+    public List<ItemDto> searchAllItemDtoByNameOrDescription(String text, Integer userId) {
         if (text.isBlank())
             return List.of();
         List<Item> items = iRep.searchItemsByNameOrDescription(text.toLowerCase());

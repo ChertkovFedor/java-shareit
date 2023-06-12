@@ -14,8 +14,6 @@ public class BookingCreationDto {
     @Positive
     @NotNull
     private Integer itemId;
-    @Future
     private LocalDateTime start;
-    @Future
     private LocalDateTime end;
 }
