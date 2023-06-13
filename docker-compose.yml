@@ -4,7 +4,7 @@ services:
     build: gateway
     container_name: gateway
     ports:
-      - "8080:8080"
+      - "${PORT_GATEWAY}:${PORT_GATEWAY}"
     depends_on:
       - server
     environment:
@@ -15,18 +15,18 @@ services:
     build: server
     container_name: server
     ports:
-      - "9090:9090"
+      - "${PORT_SERVER}:${PORT_SERVER}"
     depends_on:
-      - postgres
+      - database
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/shareit_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/shareit_db
       - TZ=GMT
 
-  postgres:
+  database:
     image: postgres:13.7-alpine
-    container_name: postgres
+    container_name: database
     ports:
-      - "6541:5432"
+      - "6541:${PORT_DATABASE}"
     environment:
       - POSTGRES_DB=shareit_db
       - POSTGRES_USER=postgres

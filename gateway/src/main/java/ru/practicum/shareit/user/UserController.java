@@ -20,14 +20,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid UserCreationDto userDto) {
-        log.info("POST user {}", userDto);
+        log.info("--gateway-- POST user {}", userDto);
         return client.create(userDto);
     }
 
     @PatchMapping("/{userId}")
     public ResponseEntity<Object> update(@PathVariable(value = "userId") Integer userId,
                           @RequestBody @Valid UserCreationDto userDto) {
-        log.info("PATCH user {}, userId={}", userDto, userId);
+        log.info("--gateway-- PATCH user {}, userId={}", userDto, userId);
         return client.update(userId, userDto);
     }
 
@@ -38,13 +38,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object>  getUserById(@PathVariable(value = "userId") Integer userId) {
-        log.info("GET user, userId={}", userId);
+        log.info("--gateway-- GET user, userId={}", userId);
         return client.findUserDtoById(userId);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Object> deleteUserById(@PathVariable(value = "userId") Integer userId) {
-        log.info("DELETE user, userId={}", userId);
+        log.info("--gateway-- DELETE user, userId={}", userId);
         client.deleteUserById(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

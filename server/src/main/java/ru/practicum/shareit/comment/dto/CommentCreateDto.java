@@ -10,6 +10,5 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentCreateDto {
-    @Size(max = 255)
     private String text;
 }

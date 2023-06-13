@@ -27,14 +27,14 @@ public class BookingController {
             @RequestBody @Valid BookingCreationDto bookingCreationDto,
             @RequestHeader("X-Sharer-User-Id") Integer userId) {
         BookingValidator.bookingValid(bookingCreationDto);
-        log.info("POST booking {}, userId={}", bookingCreationDto, userId);
+        log.info("--gateway-- POST booking {}, userId={}", bookingCreationDto, userId);
         return client.create(userId, bookingCreationDto);
     }
 
     @GetMapping("/{bookingId}")
     public ResponseEntity<Object> findBookingDtoById(@PathVariable @Positive Integer bookingId,
                                                      @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        log.info("GET booking {}, userId={}", bookingId, userId);
+        log.info("--gateway-- GET booking {}, userId={}", bookingId, userId);
         return client.findBookingDtoById(bookingId, userId);
     }
 
@@ -44,7 +44,7 @@ public class BookingController {
                                                             @RequestParam(defaultValue = "20") Integer size,
                                                             @RequestHeader("X-Sharer-User-Id") Integer userId) {
         State state = State.getState(stateTitle);
-        log.info("GET bookings with state {}, userId={}, from={}, size={}", state, userId, from, size);
+        log.info("--gateway-- GET bookings with state {}, userId={}, from={}, size={}", state, userId, from, size);
         return client.findAllBookingDtoByUser(state, from, size, userId, Role.BOOKER);
     }
 
@@ -54,7 +54,7 @@ public class BookingController {
                                                            @RequestParam(defaultValue = "20") Integer size,
                                                            @RequestHeader("X-Sharer-User-Id") Integer userId) {
         State state = State.getState(stateTitle);
-        log.info("GET bookings with state {}, userId={}, from={}, size={}", state, userId, from, size);
+        log.info("--gateway-- GET bookings with state {}, userId={}, from={}, size={}", state, userId, from, size);
         return client.findAllBookingDtoByUser(state, from, size, userId, Role.OWNER);
     }
 
@@ -62,7 +62,7 @@ public class BookingController {
     public ResponseEntity<Object> approve(@PathVariable @Positive Integer bookingId,
                                           @RequestParam Boolean approved,
                                           @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        log.info("PATCH booking approving, ownerId={}, bookingId={}, approved={}", userId, bookingId, approved);
+        log.info("--gateway-- PATCH booking approving, ownerId={}, bookingId={}, approved={}", userId, bookingId, approved);
         return client.approve(bookingId, approved, userId);
     }
 }

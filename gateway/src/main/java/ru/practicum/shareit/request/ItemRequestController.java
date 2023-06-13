@@ -18,20 +18,20 @@ public class ItemRequestController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody ItemRequestCreationDto itemRequestDto,
                                          @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        log.info("POST item request {}, userId={}", itemRequestDto, userId);
+        log.info("--gateway-- POST item request {}, userId={}", itemRequestDto, userId);
         return client.create(itemRequestDto, userId);
     }
 
     @GetMapping("/{requestId}")
     public ResponseEntity<Object> getRequestDtoById(@PathVariable Integer requestId,
                                             @RequestHeader("X-Sharer-User-Id") Integer userId) {
-        log.info("GET items request of user, userId={}, requestId={}", userId, requestId);
+        log.info("--gateway-- GET items request of user, userId={}, requestId={}", userId, requestId);
         return client.getRequestDtoById(requestId, userId);
     }
 
     @GetMapping
     public ResponseEntity<Object> findAllRequestDtoByUser(@RequestHeader("X-Sharer-User-Id") Integer userId) {
-        log.info("GET items request of user, userId={}", userId);
+        log.info("--gateway-- GET items request of user, userId={}", userId);
         return client.findAllRequestDtoByUser(userId);
     }
 
@@ -39,7 +39,7 @@ public class ItemRequestController {
     public ResponseEntity<Object> findAllRequestDtoByOthers(@RequestHeader("X-Sharer-User-Id") Integer userId,
                                                           @RequestParam(required = false, defaultValue = "0") Integer from,
                                                           @RequestParam(required = false, defaultValue = "20") Integer size) {
-        log.info("GET all item requests of others, userId={}, from={}, size={}", userId, from, size);
+        log.info("--gateway-- GET all item requests of others, userId={}, from={}, size={}", userId, from, size);
         return client.findAllRequestDtoByOthers(userId, from, size);
     }
 
